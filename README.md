@@ -2,6 +2,10 @@
 
 A modern, responsive blog platform built with React + Vite, Redux Toolkit, Context API, and Tailwind CSS. Features a clean grayscale design with smooth animations, theme switching, and full CRUD functionality.
 
+## 🌐 Live Demo
+
+**Deployed on Azure Static Web Apps**: Coming soon after you complete deployment!
+
 ## 🚀 Features
 
 - **Redux Toolkit** for state management (blog CRUD operations)
@@ -10,7 +14,9 @@ A modern, responsive blog platform built with React + Vite, Redux Toolkit, Conte
 - **LocalStorage** persistence for blogs and theme preference
 - **Modern UI/UX** with smooth animations and transitions
 - **Fully Responsive** design with no horizontal scrolling
-- **Docker-ready** for easy deployment
+- **Azure Static Web Apps** deployment ready
+- **Docker-ready** for easy containerized deployment
+- **CI/CD** with GitHub Actions
 
 ## 📋 Tech Stack
 
@@ -155,6 +161,43 @@ The app will be available at `http://localhost`
 docker stop blog-app
 docker rm blog-app
 ```
+
+## ☁️ Azure Static Web Apps Deployment
+
+This application is ready for deployment to Azure Static Web Apps with automated CI/CD.
+
+### Quick Deploy to Azure
+
+**Option 1: Azure Portal (Recommended)**
+1. Go to [Azure Portal](https://portal.azure.com)
+2. Create a new Static Web App
+3. Connect to GitHub repository: `SahilDevli/Blog-App`
+4. Set build configuration:
+   - App location: `/`
+   - Output location: `dist`
+5. Deploy automatically via GitHub Actions
+
+**Option 2: Azure CLI**
+```bash
+# Run the deployment script
+.\deploy-azure.ps1
+```
+
+**Option 3: Manual CLI**
+```bash
+az staticwebapp create \
+  --name blog-web-app \
+  --resource-group blog-app-rg \
+  --source https://github.com/SahilDevli/Blog-App \
+  --location eastus2 \
+  --branch main \
+  --app-location "/" \
+  --output-location "dist"
+```
+
+📖 **For detailed deployment instructions, see [DEPLOYMENT.md](DEPLOYMENT.md)**
+
+The GitHub Actions workflow is already configured at `.github/workflows/azure-static-web-apps.yml`
 
 ## 📱 Responsive Design
 

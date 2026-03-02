@@ -12,7 +12,7 @@ const Header = ({ onComposeClick, onSearch, searchQuery }) => {
                        flex items-center justify-between px-6 md:px-12 
                        transition-colors duration-300">
       {/* Logo / Title */}
-      <div className="flex items-center space-x-3">
+      <div className="flex items-center space-x-3 cursor-pointer">
         <div className="w-10 h-10 md:w-12 md:h-12 bg-gray-800 dark:bg-gray-200 rounded-lg 
                         flex items-center justify-center transition-all duration-300 
                         hover:scale-110 hover:rotate-3">

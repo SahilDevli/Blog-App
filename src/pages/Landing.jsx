@@ -5,6 +5,7 @@ import Header from '../components/Header';
 import BlogCard from '../components/BlogCard';
 import AddBlogModal from '../components/AddBlogModal';
 import ViewBlogModal from '../components/ViewBlogModal';
+import Pagination from '../components/Pagination';
 
 /**
  * Landing Page Component
@@ -16,9 +17,19 @@ const Landing = () => {
   const [showViewModal, setShowViewModal] = useState(false);
   const [selectedBlog, setSelectedBlog] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+
+  // Pagination constants
+  const POSTS_PER_PAGE = 10;
 
   // Get filtered blogs from Redux
   const blogs = useSelector((state) => selectFilteredBlogs(state, searchQuery));
+
+  // Calculate pagination values
+  const totalPages = Math.ceil(blogs.length / POSTS_PER_PAGE);
+  const startIndex = (currentPage - 1) * POSTS_PER_PAGE;
+  const endIndex = startIndex + POSTS_PER_PAGE;
+  const displayedBlogs = blogs.slice(startIndex, endIndex);
 
   // Welcome animation: hide after 2 seconds
   useEffect(() => {
@@ -44,6 +55,18 @@ const Landing = () => {
   const handleSearch = (query) => {
     setSearchQuery(query);
   };
+
+  // Reset to page 1 when search query changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchQuery]);
+
+  // Reset to page 1 when total pages changes and current page is out of bounds
+  useEffect(() => {
+    if (currentPage > totalPages && totalPages > 0) {
+      setCurrentPage(totalPages);
+    }
+  }, [totalPages, currentPage]);
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-950 transition-colors duration-300">
@@ -107,16 +130,25 @@ const Landing = () => {
                 )}
               </div>
             ) : (
-              <div className="space-y-0">
-                {blogs.map((blog, index) => (
-                  <BlogCard
-                    key={blog.id}
-                    blog={blog}
-                    index={index}
-                    onViewClick={handleViewBlog}
-                  />
-                ))}
-              </div>
+              <>
+                <div className="space-y-0">
+                  {displayedBlogs.map((blog, index) => (
+                    <BlogCard
+                      key={blog.id}
+                      blog={blog}
+                      index={startIndex + index}
+                      onViewClick={handleViewBlog}
+                    />
+                  ))}
+                </div>
+                
+                {/* Pagination Controls */}
+                <Pagination
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  onPageChange={setCurrentPage}
+                />
+              </>
             )}
           </div>
         </main>
